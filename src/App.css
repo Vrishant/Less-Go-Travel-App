@@ -1,5 +1,60 @@
 .App {
   text-align: center;
+  background-color: rgb(62, 100, 101);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Remove position: fixed as it can cause layout issues */
+}
+
+/* Navbar */
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.nav-link:hover {
+  transform: scale(1.1);
+}
+
+
+/* secondary-navbar */
+.secondary-navbar {
+  background-color: rgb(34, 150, 99);
+  transition: all 0.3s ease;
+}
+
+.transport-btn {
+  transition: all 0.3s ease !important;
+}
+
+.transport-btn:hover {
+  transform: translateY(-2px);
+  background-color: rgb(54, 200, 139) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transport-btn:active {
+  transform: translateY(0);
+}
+
+.transport-btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(44, 190, 129, 0.25) !important;
+}
+
+@media (max-width: 768px) {
+  .transport-btn {
+    padding: 6px 12px !important;
+    font-size: 14px;
+  }
+}
+
+
+.main-content {
+  background-color: rgb(62, 100, 101);
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
 }
 
 .App-logo {
@@ -35,4 +90,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.custom-select option:checked {
+  background-color: rgb(44, 190, 129);
+  color: rgb(27, 20, 30);
+}
+
+.custom-select::-ms-expand {
+  display: none;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: rgb(44, 190, 129);
+}
+
+/* For date input */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
