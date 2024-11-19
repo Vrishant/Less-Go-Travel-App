@@ -1,11 +1,18 @@
 import React from 'react';
 import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { House, Compass, Search, BookmarkHeart, InfoCircle, PersonCircle } from 'react-bootstrap-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/logo.png';
 
 const NavigationBar = ({ username }) => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLogout = () => {
+    localStorage.removeItem('username'); // Clear the local storage
+    navigate('/login'); // Navigate to the login page
+  };
+
   const navbarStyle = {
     backgroundColor: 'rgb(44, 190, 129)',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
@@ -65,7 +72,7 @@ const NavigationBar = ({ username }) => {
               <Dropdown.Menu>
                 <Dropdown.ItemText>{username}</Dropdown.ItemText>
                 <Dropdown.Divider />
-                <Dropdown.Item as={Link} to="/login">
+                <Dropdown.Item onClick={handleLogout}> {/* Use handleLogout here */}
                   Logout
                 </Dropdown.Item>
               </Dropdown.Menu>

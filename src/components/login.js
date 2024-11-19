@@ -1,36 +1,36 @@
-// src/components/login.js
-
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setUsername }) { // Accept setUsername as a prop
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
-    e.preventDefault(); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-          const response = await fetch('http://localhost:5000/api/login', {
-            method: 'POST',
-            headers:{
-              'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-              email,
-              password
-            })    
-          })
-          const result = await response.json();
-          console.log("Login response: ",result);
-          if(response.ok){
-            navigate('/');
-          }else{
-            alert(result.message || 'Login failed. Please check your response');
-          }
+      const response = await fetch('http://localhost:5001/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+      const result = await response.json();
+      console.log("Login response: ", result);
+      if (response.ok) {
+        localStorage.setItem('username', result.data.user.username); // Set username in local storage
+        setUsername(result.data.user.username); // Update username in App.js
+        navigate('/'); // Navigate to home after login
+      } else {
+        alert(result.message || 'Login failed. Please check your response');
+      }
     } catch (error) {
       console.error("Error during login :", error);
-      alert("An error occured. Please try again later");
+      alert("An error occurred. Please try again later");
     }
   };
 
@@ -71,7 +71,7 @@ function Login() {
       cursor: 'pointer',
       fontSize: '16px', // Increased font size for button
     },
-    newUser:  {
+    newUser:   {
       marginTop: '15px',
       textAlign: 'center',
       fontSize: '14px', // Font size for the new user message
@@ -107,7 +107,7 @@ function Login() {
         <button type="submit" style={styles.button}>Login</button>
       </form>
       <div style={styles.newUser }>
-        <p>New user? <a href="/signup" style={{ color: 'rgb(34, 150, 99)' }}>Sign up here</a></p>
+        <p>New user? <Link to="/signup" style={{ color: 'rgb(34, 150, 99)' }}>Sign up here</Link></p>
       </div>
     </div>
   );
