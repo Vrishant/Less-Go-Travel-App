@@ -1,16 +1,37 @@
 // src/components/login.js
 
 import React, { useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleSubmit = async(e) => {
+    e.preventDefault(); 
+    try {
+          const response = await fetch('http://localhost:5000/api/login', {
+            method: 'POST',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+              email,
+              password
+            })    
+          })
+          const result = await response.json();
+          console.log("Login response: ",result);
+          if(response.ok){
+            navigate('/');
+          }else{
+            alert(result.message || 'Login failed. Please check your response');
+          }
+    } catch (error) {
+      console.error("Error during login :", error);
+      alert("An error occured. Please try again later");
+    }
   };
 
   // Inline styles

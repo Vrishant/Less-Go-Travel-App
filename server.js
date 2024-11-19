@@ -165,7 +165,8 @@ import { Router } from 'express';
  */
 const router = Router();
 router.route('/register').post(registerUser);
-router.route('login').post(login);
+router.route('/login').post(login);
+app.use('/api',router);
 app.get('/api/flights', async (req, res) => {
   const { origin, destination, departureDate, returnDate, classType } = req.query;
 

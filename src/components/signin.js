@@ -1,6 +1,7 @@
 // src/components/signin.js
 
 import React, { useState } from 'react';
+import { Link ,useNavigate} from 'react-router-dom';
 
 function SignIn() {
   const [firstName, setFirstName] = useState('');
@@ -8,15 +9,34 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('');
+  const navigate=useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    // Handle sign-in logic here
-    console.log('First Name:', firstName);
-    console.log('Last Name:', lastName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Gender:', gender);
+    try {
+      const response = await fetch('http://localhost:5000/api/register', {
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+          username: `${firstName} ${lastName}`,
+          email,
+          password
+        })
+      });
+      const data = await response.json();
+      console.log("Data after registeration is: ",data);
+      if(response.ok){
+        //<a href ='/login'/>
+        navigate('/login');
+      }else{
+        alert(data.message || 'Error occurred while registering');
+      }
+    } catch ( error) {
+      console.log('Error ',error);
+      alert("Error in registeration. Please try again.");
+    }
   };
 
   // Inline styles
